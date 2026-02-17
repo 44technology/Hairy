@@ -1,5 +1,6 @@
 import { useState } from 'react';
-import { Mail, Lock, Sparkles, ArrowRight } from 'lucide-react';
+import { Mail, Lock, ArrowRight } from 'lucide-react';
+import logo from '../assets/logo.png';
 
 const LoginPage = ({ onLogin }: { onLogin: (userId: string) => void }) => {
     const [email, setEmail] = useState('');
@@ -40,16 +41,7 @@ const LoginPage = ({ onLogin }: { onLogin: (userId: string) => void }) => {
                 border: '1px solid hsl(var(--primary) / 0.1)'
             }}>
                 <div style={{ textAlign: 'center' }}>
-                    <div style={{
-                        width: '60px', height: '60px',
-                        background: 'hsl(var(--primary))',
-                        borderRadius: '16px',
-                        display: 'flex', alignItems: 'center', justifyContent: 'center',
-                        margin: '0 auto 1.5rem'
-                    }}>
-                        <Sparkles size={32} color="white" />
-                    </div>
-                    <h1 className="premium-gradient-text" style={{ fontSize: '2.25rem', fontWeight: 800, marginBottom: '0.5rem' }}>Capilar Max</h1>
+                    <img src={logo} alt="Capilar Max Logo" style={{ height: '80px', margin: '0 auto 1.5rem', display: 'block' }} />
                     <p style={{ color: 'hsl(var(--muted-foreground))' }}>Clinical Excellence Portal</p>
                 </div>
 

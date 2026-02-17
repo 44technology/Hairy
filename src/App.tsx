@@ -10,6 +10,7 @@ import { MOCK_CLINICS, MOCK_USERS, MOCK_PATIENTS } from './data/mockPatients'
 import { User, Clinic, Patient } from './types'
 
 import LoginPage from './pages/Login'
+import logo from './assets/logo.png'
 
 function App() {
     const [isAuthenticated, setIsAuthenticated] = useState(false)
@@ -118,19 +119,8 @@ function App() {
                 position: 'sticky',
                 top: '1rem'
             }}>
-                <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
-                    <div style={{
-                        width: '40px',
-                        height: '40px',
-                        background: 'hsl(var(--primary))',
-                        borderRadius: '12px',
-                        display: 'flex',
-                        alignItems: 'center',
-                        justifyContent: 'center'
-                    }}>
-                        <Sparkles size={20} color="white" />
-                    </div>
-                    <h1 className="premium-gradient-text" style={{ fontSize: '1.5rem', fontWeight: 700 }}>Capilar Max</h1>
+                <div style={{ display: 'flex', alignItems: 'center', gap: '1rem', paddingBottom: '0.5rem' }}>
+                    <img src={logo} alt="Capilar Max Logo" style={{ height: '45px', objectFit: 'contain' }} />
                 </div>
 
                 <nav style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>

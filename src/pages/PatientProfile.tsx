@@ -8,6 +8,8 @@ import ScalpMap from '../components/ScalpMap';
 import ComprehensiveConsentForm from '../components/ComprehensiveConsentForm';
 import AddVitalsModal from '../components/AddVitalsModal';
 import { Patient, UserRole } from '../types';
+import { generateConsentPDF } from '../utils/pdfExport';
+import { Download } from 'lucide-react';
 
 const PatientProfile = ({ id, onBack, userRole }: {
     id: string,
@@ -15,17 +17,19 @@ const PatientProfile = ({ id, onBack, userRole }: {
     userRole: UserRole
 }) => {
     const patient = MOCK_PATIENTS.find(p => p.id === id);
+    if (!patient) return <div>Patient not found.</div>;
+
     const [isSigModalOpen, setIsSigModalOpen] = useState(false);
     const [isConsentModalOpen, setIsConsentModalOpen] = useState(false);
+    const [isSigned, setIsSigned] = useState(patient.isConsentSigned || false);
     const [isVitalsModalOpen, setIsVitalsModalOpen] = useState(false);
     const [vitalsType, setVitalsType] = useState<'bp' | 'glucose'>('bp');
     const [currentDoc, setCurrentDoc] = useState<string | null>(null);
     const [selectedPhotos, setSelectedPhotos] = useState<string[]>([]);
     const [lightboxIndex, setLightboxIndex] = useState<number | null>(null);
     const [lightboxImages, setLightboxImages] = useState<string[]>([]);
+    const [consentData, setConsentData] = useState<any>(patient.consent || null);
     const fileInputRef = useRef<HTMLInputElement>(null);
-
-    if (!patient) return <div>Patient not found.</div>;
 
     const handleUploadClick = () => {
         fileInputRef.current?.click();
@@ -98,10 +102,17 @@ const PatientProfile = ({ id, onBack, userRole }: {
                     </button>
                     <button
                         onClick={() => alert('Operation scheduler opening...')}
-                        disabled={!patient.isConsentSigned}
-                        style={{ padding: '0.75rem 1.5rem', background: 'hsl(var(--primary))', color: 'white', borderRadius: '12px', fontWeight: 600, border: 'none', cursor: 'pointer', opacity: patient.isConsentSigned ? 1 : 0.5 }}>
+                        disabled={!isSigned}
+                        style={{ padding: '0.75rem 1.5rem', background: 'hsl(var(--primary))', color: 'white', borderRadius: '12px', fontWeight: 600, border: 'none', cursor: 'pointer', opacity: isSigned ? 1 : 0.5 }}>
                         Schedule Operation
                     </button>
+                    {isSigned && (
+                        <button
+                            onClick={() => alert('Starting Operation UI...')}
+                            style={{ padding: '0.75rem 1.5rem', background: '#10b981', color: 'white', borderRadius: '12px', fontWeight: 700, border: 'none', cursor: 'pointer', display: 'flex', alignItems: 'center', gap: '0.5rem', boxShadow: '0 4px 14px 0 rgba(16, 185, 129, 0.39)' }}>
+                            <Scissors size={18} /> START OPERATION
+                        </button>
+                    )}
                 </div>
             </header>
 
@@ -244,11 +255,29 @@ const PatientProfile = ({ id, onBack, userRole }: {
                                         <p style={{ fontSize: '0.9rem', fontWeight: 500 }}>{doc.name}</p>
                                         <p style={{ fontSize: '0.75rem', color: 'hsl(var(--muted-foreground))' }}>{doc.signed ? 'Signed' : 'Awaiting Signature'}</p>
                                     </div>
-                                    {!doc.signed && (
+                                    {!doc.signed && doc.name === 'Official Consent Form' && isSigned && (
                                         <button
                                             onClick={() => {
-                                                setCurrentDoc(doc.name);
-                                                setIsSigModalOpen(true);
+                                                if (consentData) {
+                                                    generateConsentPDF(`${patient.firstName} ${patient.lastName}`, consentData);
+                                                } else {
+                                                    alert('Consent data not found in local session.');
+                                                }
+                                            }}
+                                            style={{ display: 'flex', alignItems: 'center', gap: '0.4rem', fontSize: '0.75rem', color: '#10b981', fontWeight: 600, background: 'transparent', border: 'none', cursor: 'pointer' }}
+                                        >
+                                            <Download size={14} /> PDF
+                                        </button>
+                                    )}
+                                    {!doc.signed && !isSigned && (
+                                        <button
+                                            onClick={() => {
+                                                if (doc.name === 'Official Consent Form') {
+                                                    setIsConsentModalOpen(true);
+                                                } else {
+                                                    setCurrentDoc(doc.name);
+                                                    setIsSigModalOpen(true);
+                                                }
                                             }}
                                             style={{ fontSize: '0.75rem', color: 'hsl(var(--primary))', fontWeight: 600, background: 'transparent', border: 'none', cursor: 'pointer' }}
                                         >
@@ -342,7 +371,11 @@ const PatientProfile = ({ id, onBack, userRole }: {
                 patientName={`${patient.firstName} ${patient.lastName}`}
                 onSave={(data) => {
                     console.log('Comprehensive Consent Saved:', data);
+                    setIsSigned(true);
+                    setConsentData(data);
                     alert('Comprehensive Consent Form signed and archived!');
+                    // Automatically trigger download after signing
+                    generateConsentPDF(`${patient.firstName} ${patient.lastName}`, data);
                 }}
             />
 

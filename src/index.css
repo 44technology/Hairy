@@ -50,7 +50,12 @@ body {
   line-height: 1.5;
 }
 
-h1, h2, h3, h4, h5, h6 {
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
   font-family: var(--font-heading);
   letter-spacing: -0.02em;
 }
@@ -65,6 +70,7 @@ h1, h2, h3, h4, h5, h6 {
 .premium-gradient-text {
   background: linear-gradient(135deg, #fff 0%, #a855f7 100%);
   -webkit-background-clip: text;
+  background-clip: text;
   -webkit-text-fill-color: transparent;
 }
 
@@ -101,4 +107,25 @@ button:active {
   :root {
     --radius: 0.5rem;
   }
+
+  .hide-on-mobile {
+    display: none !important;
+  }
+
+  .show-on-mobile {
+    display: flex !important;
+  }
+
+  .app-container {
+    flex-direction: column !important;
+  }
+
+  main {
+    padding: 1rem !important;
+    width: 100% !important;
+  }
+}
+
+.show-on-mobile {
+  display: none;
 }

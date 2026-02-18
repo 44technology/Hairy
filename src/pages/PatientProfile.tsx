@@ -1,4 +1,5 @@
 import { useState, useRef } from 'react';
+import { useParams } from 'react-router-dom';
 import { ChevronLeft, Camera, FileText, Activity, Scissors, Plus as PlusIcon, ArrowLeft, Pill, ShieldAlert, Droplets, User as UserIcon, Check } from 'lucide-react';
 import { MOCK_PATIENTS } from '../data/mockPatients';
 import SignatureModal from '../components/SignatureModal';
@@ -11,11 +12,13 @@ import { Patient, UserRole } from '../types';
 import { generateConsentPDF } from '../utils/pdfExport';
 import { Download } from 'lucide-react';
 
-const PatientProfile = ({ id, onBack, userRole }: {
-    id: string,
+const PatientProfile = ({ id: propId, onBack, userRole }: {
+    id?: string,
     onBack: () => void,
     userRole: UserRole
 }) => {
+    const { id: paramsId } = useParams<{ id: string }>();
+    const id = propId || paramsId;
     const patient = MOCK_PATIENTS.find(p => p.id === id);
     if (!patient) return <div>Patient not found.</div>;
 

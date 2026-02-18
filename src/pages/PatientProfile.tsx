@@ -78,48 +78,49 @@ const PatientProfile = ({ id: propId, onBack, userRole }: {
                 Go Back
             </button>
 
-            <header style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                <div style={{ display: 'flex', gap: '1.5rem', alignItems: 'center' }}>
-                    <div style={{ width: '80px', height: '80px', background: 'hsl(var(--primary) / 0.2)', color: 'hsl(var(--primary))', borderRadius: '50%', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '2rem', fontWeight: 700 }}>
+            <header style={{
+                display: 'flex',
+                flexDirection: 'column',
+                gap: '1.5rem',
+                alignItems: 'stretch'
+            }}>
+                <div style={{ display: 'flex', gap: '1.5rem', alignItems: 'center', flexWrap: 'wrap' }}>
+                    <div style={{ width: '80px', height: '80px', flexShrink: 0, background: 'hsl(var(--primary) / 0.2)', color: 'hsl(var(--primary))', borderRadius: '50%', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '2rem', fontWeight: 700 }}>
                         {patient.firstName[0]}{patient.lastName[0]}
                     </div>
-                    <div>
-                        <h2 style={{ fontSize: '2.5rem', fontWeight: 700 }}>{patient.firstName} {patient.lastName}</h2>
-                        <div style={{ display: 'flex', flexWrap: 'wrap', gap: '1rem', alignItems: 'center', color: 'hsl(var(--muted-foreground))' }}>
-                            <span>Patient ID: #{patient.id}</span>
+                    <div style={{ minWidth: '200px', flex: 1 }}>
+                        <h2 style={{ fontSize: '2.5rem', fontWeight: 700, lineHeight: 1.1 }}>{patient.firstName} {patient.lastName}</h2>
+                        <div style={{ display: 'flex', flexWrap: 'wrap', gap: '1rem', alignItems: 'center', color: 'hsl(var(--muted-foreground))', marginTop: '0.5rem' }}>
+                            <span>ID: #{patient.id}</span>
                             <span>•</span>
                             <span>{userRole === 'specialist' ? '***-***-**-**' : patient.phone}</span>
-                            <span>•</span>
-                            <span>{userRole === 'specialist' ? '*******@*******.***' : patient.email}</span>
                         </div>
                     </div>
                 </div>
-                <div style={{ display: 'flex', gap: '1rem' }}>
+                <div style={{ display: 'flex', gap: '0.75rem', flexWrap: 'wrap' }}>
                     <button
                         onClick={() => alert('Editing mode opening...')}
-                        className="premium-glass" style={{ padding: '0.75rem 1.5rem', fontWeight: 600, border: 'none', cursor: 'pointer' }}>Edit</button>
+                        className="premium-glass" style={{ flex: 1, padding: '0.75rem 1.5rem', fontWeight: 600, border: 'none', cursor: 'pointer', minWidth: '100px' }}>Edit</button>
                     <button
                         onClick={() => setIsConsentModalOpen(true)}
-                        style={{ padding: '0.75rem 1.5rem', background: 'hsl(var(--secondary))', color: 'white', borderRadius: '12px', fontWeight: 600, border: 'none', cursor: 'pointer', display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+                        style={{ flex: 2, padding: '0.75rem 1.5rem', background: 'hsl(var(--secondary))', color: 'white', borderRadius: '12px', fontWeight: 600, border: 'none', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '0.5rem', minWidth: '200px' }}>
                         <FileText size={18} /> Official Consent Form
-                    </button>
-                    <button
-                        onClick={() => alert('Operation scheduler opening...')}
-                        disabled={!isSigned}
-                        style={{ padding: '0.75rem 1.5rem', background: 'hsl(var(--primary))', color: 'white', borderRadius: '12px', fontWeight: 600, border: 'none', cursor: 'pointer', opacity: isSigned ? 1 : 0.5 }}>
-                        Schedule Operation
                     </button>
                     {isSigned && (
                         <button
                             onClick={() => alert('Starting Operation UI...')}
-                            style={{ padding: '0.75rem 1.5rem', background: '#10b981', color: 'white', borderRadius: '12px', fontWeight: 700, border: 'none', cursor: 'pointer', display: 'flex', alignItems: 'center', gap: '0.5rem', boxShadow: '0 4px 14px 0 rgba(16, 185, 129, 0.39)' }}>
+                            style={{ width: '100%', padding: '1rem', background: '#10b981', color: 'white', borderRadius: '12px', fontWeight: 700, border: 'none', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '0.5rem', boxShadow: '0 4px 14px 0 rgba(16, 185, 129, 0.39)', marginTop: '0.5rem' }}>
                             <Scissors size={18} /> START OPERATION
                         </button>
                     )}
                 </div>
             </header>
 
-            <div style={{ display: 'grid', gridTemplateColumns: '1fr 2fr', gap: '1.5rem' }}>
+            <div style={{
+                display: 'grid',
+                gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))',
+                gap: '1.5rem'
+            }}>
                 <div style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem' }}>
                     {(patient.hepatitisB || patient.hepatitisC || patient.hiv) && (
                         <div className="premium-glass" style={{ padding: '1.5rem', border: '2px solid #ef4444', background: 'rgba(239, 68, 68, 0.1)' }}>

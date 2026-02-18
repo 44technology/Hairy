@@ -61,7 +61,11 @@ const Dashboard = ({ onAddPatient, patients, userRole }: {
                 ))}
             </div>
 
-            <div style={{ display: 'grid', gridTemplateColumns: '2fr 1fr', gap: '1.5rem' }}>
+            <div className="responsive-dashboard-grid" style={{
+                display: 'grid',
+                gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))',
+                gap: '1.5rem'
+            }}>
                 <div style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem' }}>
                     <div className="premium-glass" style={{ padding: '1.5rem' }}>
                         <h3 style={{ fontSize: '1.25rem', marginBottom: '1.5rem' }}>Upcoming Operations</h3>

@@ -37,12 +37,19 @@ const CalendarPage = ({ patients, userRole, currentUser, onUpdatePatient }: {
     const weekDays = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
 
     const renderHeader = () => (
-        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '2rem' }}>
+        <div style={{
+            display: 'flex',
+            flexDirection: window.innerWidth < 768 ? 'column' : 'row',
+            justifyContent: 'space-between',
+            alignItems: window.innerWidth < 768 ? 'stretch' : 'center',
+            gap: '1.5rem',
+            marginBottom: '2rem'
+        }}>
             <div>
                 <h2 style={{ fontSize: '2rem', fontWeight: 700 }}>Calendar</h2>
                 <p style={{ color: 'hsl(var(--muted-foreground))' }}>Operation scheduling and appointment management.</p>
             </div>
-            <div style={{ display: 'flex', alignItems: 'center', gap: '1rem', background: 'hsl(var(--secondary) / 0.5)', padding: '0.5rem 1rem', borderRadius: '12px' }}>
+            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: '1rem', background: 'hsl(var(--secondary) / 0.5)', padding: '0.75rem 1rem', borderRadius: '12px' }}>
                 <button onClick={prevMonth} style={{ background: 'transparent', border: 'none', cursor: 'pointer', color: 'white' }}><ChevronLeft size={20} /></button>
                 <span style={{ fontSize: '1.125rem', fontWeight: 600, minWidth: '120px', textAlign: 'center' }}>
                     {monthNames[currentDate.getMonth()]} {currentDate.getFullYear()}
@@ -118,13 +125,15 @@ const CalendarPage = ({ patients, userRole, currentUser, onUpdatePatient }: {
         }
 
         return (
-            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(7, 1fr)', gap: '0.5rem' }}>
-                {weekDays.map(wd => (
-                    <div key={wd} style={{ padding: '1rem', textAlign: 'center', fontSize: '0.875rem', fontWeight: 600, color: 'hsl(var(--muted-foreground))' }}>
-                        {wd}
-                    </div>
-                ))}
-                {days}
+            <div style={{ overflowX: 'auto', paddingBottom: '1rem' }}>
+                <div style={{ display: 'grid', gridTemplateColumns: 'repeat(7, minmax(100px, 1fr))', gap: '0.5rem', minWidth: '700px' }}>
+                    {weekDays.map(wd => (
+                        <div key={wd} style={{ padding: '1rem', textAlign: 'center', fontSize: '0.875rem', fontWeight: 600, color: 'hsl(var(--muted-foreground))' }}>
+                            {wd}
+                        </div>
+                    ))}
+                    {days}
+                </div>
             </div>
         );
     };

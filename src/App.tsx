@@ -7,6 +7,7 @@ import PatientProfile from './pages/PatientProfile'
 import CalendarPage from './pages/Calendar'
 import AddPatientModal from './components/AddPatientModal'
 import SettingsPage from './pages/Settings'
+import DocumentsPage from './pages/Documents'
 import { MOCK_CLINICS, MOCK_USERS, MOCK_PATIENTS } from './data/mockPatients'
 import { User, Clinic, Patient } from './types'
 import Sidebar from './components/Sidebar'
@@ -147,6 +148,7 @@ function App() {
                     <Route path="/patients" element={<PatientList onSelectPatient={(id) => navigate(`/patients/${id}`)} onAddPatient={() => setIsAddPatientOpen(true)} patients={filteredPatients} userRole={currentUser.role} />} />
                     <Route path="/patients/:id" element={<PatientProfile onBack={() => navigate('/patients')} userRole={currentUser.role} />} />
                     <Route path="/calendar" element={<CalendarPage patients={filteredPatients} userRole={currentUser.role} currentUser={currentUser} onUpdatePatient={handleUpdatePatient} />} />
+                    <Route path="/documents" element={<DocumentsPage patients={filteredPatients} />} />
                     <Route path="/settings" element={
                         (currentUser.role === 'super-admin' || currentUser.role === 'admin')
                             ? <SettingsPage userRole={currentUser.role} clinic={currentClinic} />

@@ -78,7 +78,7 @@ export interface PhotoAlbum {
 export interface Document {
     id: string;
     name: string;
-    type: 'consent' | 'medical-history' | 'lab-results';
+    type: 'consent' | 'medical-history' | 'lab-results' | 'image' | 'video' | 'pdf' | 'document' | 'other';
     uploadDate: string;
     url: string;
     signed?: boolean;

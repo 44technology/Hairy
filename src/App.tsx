@@ -148,7 +148,7 @@ function App() {
                     <Route path="/patients" element={<PatientList onSelectPatient={(id) => navigate(`/patients/${id}`)} onAddPatient={() => setIsAddPatientOpen(true)} patients={filteredPatients} userRole={currentUser.role} />} />
                     <Route path="/patients/:id" element={<PatientProfile onBack={() => navigate('/patients')} userRole={currentUser.role} />} />
                     <Route path="/calendar" element={<CalendarPage patients={filteredPatients} userRole={currentUser.role} currentUser={currentUser} onUpdatePatient={handleUpdatePatient} />} />
-                    <Route path="/documents" element={<DocumentsPage patients={filteredPatients} />} />
+                    <Route path="/documents" element={<DocumentsPage patients={filteredPatients} onUpdatePatient={handleUpdatePatient} />} />
                     <Route path="/settings" element={
                         (currentUser.role === 'super-admin' || currentUser.role === 'admin')
                             ? <SettingsPage userRole={currentUser.role} clinic={currentClinic} />
